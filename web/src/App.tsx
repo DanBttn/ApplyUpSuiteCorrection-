@@ -2,20 +2,14 @@ import "./App.css";
 import { AppliancesList } from "./components/AppliancesList";
 import { ApplyForm } from "./components/ApplyForm";
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AppliancesProvider } from "./contexts/AppliancesContext";
 import { ApplianceDetails } from "./components/ApplianceDetails";
 import { LoginForm } from "./components/LoginForm";
-import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import { Header } from "./components/Header";
 import { ProtectedRoute } from "./components/ProtectedRoute";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   return (
@@ -30,8 +24,29 @@ function App() {
 }
 
 const AppRoot = () => {
+  const [result, setResult] = useState<string[]>([]);
+  const [error, setError] = useState<string>();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/jobs");
+        const object = await response.json();
+        setResult(object);
+      } catch (error) {
+        setError("Error connecting to server");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <>
+      <span>{isLoading ? "Loading..." : result.join(", ")}</span>
+      {error && <span className="text-red-500">{error}</span>}
       <Header />
       <Routes>
         <Route path="/" element={<LoginForm />} />
