@@ -1,8 +1,7 @@
-import { useParams } from "react-router-dom";
+import { Appliance } from "./AppliancesList";
 
 export const ApplianceDetails = () => {
-  const { id } = useParams();
-  const appliance = undefined
+  const appliance = undefined as Appliance | undefined
   if (!appliance) {
     return <div>Appliance not found</div>;
   }

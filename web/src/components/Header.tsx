@@ -2,13 +2,13 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 export const Header = () => {
-  const { user, logout } = useAuth();
+  const { token, logout } = useAuth();
 
   return (
     <div className="flex flex-row gap-4">
-      {user ? (
+      {token ? (
         <>
-          <span>{user.email}</span>
+          <span>User connecté</span>
           <button
             onClick={logout}
             className="m-4 inline-block text-blue-500 underline"

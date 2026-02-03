@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { useFetch } from "../hooks/useFetch";
 import { useAppliances } from "../hooks/useAppliances";
 
 export type Appliance = {
@@ -11,11 +10,7 @@ export type Appliance = {
 };
 
 export const AppliancesList = () => {
-  const {
-    data: appliances = [],
-    error,
-    isLoading,
-  } = useAppliances()
+  const { data: appliances = [] } = useAppliances();
 
   return (
     <div className="flex flex-col">
