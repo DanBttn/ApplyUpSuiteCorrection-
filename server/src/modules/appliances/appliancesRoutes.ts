@@ -5,10 +5,15 @@ import {
   applianceSchema,
   appliancesCollection,
 } from "./appliancesModels";
+import { authMiddleware, JwtPayload } from "../auth/jwt";
 
 export const appliancesRoutes = Router();
 
-appliancesRoutes.get("/", async (_, response) => {
+appliancesRoutes.use(authMiddleware);
+
+appliancesRoutes.get("/", async (request, response) => {
+  const {userId} = (request as any).auth as JwtPayload
+  console.log(`User ${userId} is fetching appliances`)
   const result = await appliancesCollection.find().toArray();
   response.json(result);
 });
